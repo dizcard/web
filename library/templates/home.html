@@ -1,18 +1,124 @@
+
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Bosh sahifa{% endblock %}
 
 {% block content %}
 
-<h1>Bizning maktabimizga xush kelibsiz</h1>
-<p>Maktabimizda bor barcha bo'limlar:</p>
-<a href="{% url 'books' %}">Kitoblar</a>
-<br>
-<a href="{% url 'users' %}">O'quvchilar</a>
-<br>
-<a href="{% url 'userbooks' %}">O'quvchi kitoblari</a>
-<br>
-<br>
+<style>
+    .home-section {
+        min-height: 85vh;
+        padding: 60px 20px;
+        background: linear-gradient(135deg, #eef2ff, #f8fafc);
+        border-radius: 25px;
+    }
 
+    .welcome-title {
+        font-size: 42px;
+        font-weight: 800;
+        color: #172554;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .welcome-text {
+        text-align: center;
+        color: #64748b;
+        font-size: 18px;
+        margin-bottom: 45px;
+    }
+
+    .menu-card {
+        background: white;
+        border-radius: 20px;
+        padding: 35px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        height: 100%;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+        transition: 0.3s ease;
+        border: 1px solid #e2e8f0;
+    }
+
+    .menu-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(37,99,235,0.15);
+    }
+
+    .menu-icon {
+        font-size: 50px;
+        margin-bottom: 20px;
+    }
+
+    .menu-card h3 {
+        color: #1e293b;
+        font-weight: 700;
+        font-size: 22px;
+    }
+
+    .menu-card p {
+        color: #64748b;
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+
+    .footer-text {
+        text-align: center;
+        color: #94a3b8;
+        margin-top: 50px;
+    }
+
+    @media(max-width: 600px) {
+        .welcome-title {
+            font-size: 30px;
+        }
+    }
+</style>
+
+<div class="container home-section">
+
+    <h1 class="welcome-title">
+        🎓 Maktabimizga xush kelibsiz!
+    </h1>
+
+    <p class="welcome-text">
+        Maktab boshqaruv tizimiga xush kelibsiz.
+        Kerakli bo‘limni tanlang.
+    </p>
+
+    <div class="row g-4 justify-content-center">
+
+        <div class="col-md-4 col-sm-6">
+            <a href="{% url 'books' %}" class="menu-card">
+                <div class="menu-icon">📚</div>
+                <h3>Kitoblar</h3>
+                <p>Maktab kutubxonasidagi barcha kitoblar</p>
+            </a>
+        </div>
+
+        <div class="col-md-4 col-sm-6">
+            <a href="{% url 'users' %}" class="menu-card">
+                <div class="menu-icon">👨‍🎓</div>
+                <h3>O‘quvchilar</h3>
+                <p>Maktab o‘quvchilari ro‘yxati</p>
+            </a>
+        </div>
+
+        <div class="col-md-4 col-sm-6">
+            <a href="{% url 'userbooks' %}" class="menu-card">
+                <div class="menu-icon">📖</div>
+                <h3>O‘quvchi kitoblari</h3>
+                <p>O‘quvchilarga berilgan kitoblar</p>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="footer-text">
+        © 2026 Maktab boshqaruv tizimi. Barcha huquqlar himoyalangan.
+    </div>
+
+</div>
 
 {% endblock %}
