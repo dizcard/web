@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Create User{% endblock %}
+
+{% block content %}
+
+<style>
+    .user-container {
+        min-height: 75vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px 15px;
+    }
+
+    .user-card {
+        width: 100%;
+        max-width: 550px;
+        padding: 35px;
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        color: white;
+    }
+
+    .user-card h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 28px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #94a3b8;
+        margin-bottom: 30px;
+    }
+
+    .user-card label {
+        display: block;
+        margin-bottom: 8px;
+        color: #cbd5e1;
+        font-weight: 600;
+    }
+
+    .user-card input,
+    .user-card select,
+    .user-card textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 13px;
+        margin-bottom: 15px;
+        border: 1px solid #475569;
+        border-radius: 10px;
+        background: #0f172a;
+        color: white;
+        outline: none;
+    }
+
+    .user-card input:focus,
+    .user-card select:focus,
+    .user-card textarea:focus {
+        border-color: #38bdf8;
+    }
+
+    .user-card button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #06b6d4, #6366f1);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .user-card button:hover {
+        transform: translateY(-3px);
+    }
+
+    .back-button {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        padding: 12px;
+        border: 1px solid #475569;
+        border-radius: 10px;
+        color: #38bdf8;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .back-button:hover {
+        background: #334155;
+        color: white;
+    }
+
+    .user-card .errorlist {
+        color: #f87171;
+    }
+
+    @media (max-width: 600px) {
+        .user-card {
+            padding: 22px;
+        }
+    }
+</style>
+
+<div class="user-container">
+    <div class="user-card">
+
+        <h1>👤 Create User</h1>
+        <p class="subtitle">Yangi foydalanuvchi ma'lumotlarini kiriting</p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+                ＋ User qo'shish
+            </button>
+        </form>
+
+        <a href="{% url 'users' %}" class="back-button">
+            ← Orqaga qaytish
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

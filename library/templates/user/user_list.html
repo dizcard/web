@@ -1,0 +1,293 @@
+
+{% extends 'base.html' %}
+
+{% block title %}O'quvchilar{% endblock %}
+
+{% block content %}
+
+<style>
+    .users-page {
+        min-height: 75vh;
+        padding: 35px 20px;
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        border-radius: 15px;
+        color: white;
+    }
+
+    .users-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .users-header h1 {
+        color: white;
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    .users-header p {
+        color: #94a3b8;
+    }
+
+    .search-form {
+        display: flex;
+        gap: 10px;
+        max-width: 600px;
+        margin: 25px auto 35px;
+    }
+
+    .search-form input {
+        flex: 1;
+        min-width: 0;
+        padding: 14px 18px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.15);
+        outline: none;
+        background: rgba(255,255,255,0.08);
+        color: white;
+        font-size: 15px;
+    }
+
+    .search-form input::placeholder {
+        color: #94a3b8;
+    }
+
+    .search-form input:focus {
+        border-color: #06b6d4;
+        box-shadow: 0 0 12px rgba(6,182,212,0.2);
+    }
+
+    .search-button {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #06b6d4, #6366f1);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .search-button:hover {
+        transform: translateY(-3px);
+    }
+
+    .users-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+    }
+
+    .user-card {
+        padding: 25px;
+        border-radius: 17px;
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.12);
+        text-align: center;
+        transition: 0.3s;
+    }
+
+    .user-card:hover {
+        transform: translateY(-7px);
+        background: rgba(6,182,212,0.12);
+        border-color: #06b6d4;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .user-avatar {
+        width: 75px;
+        height: 75px;
+        margin: 0 auto 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #06b6d4, #6366f1);
+        color: white;
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .user-card h3 {
+        color: #22d3ee;
+        font-size: 19px;
+        margin-bottom: 18px;
+    }
+
+    .detail-button {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 9px;
+        background: linear-gradient(135deg, #06b6d4, #6366f1);
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .detail-button:hover {
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .empty-message {
+        text-align: center;
+        padding: 30px;
+        color: #fca5a5;
+        background: rgba(255,255,255,0.06);
+        border-radius: 12px;
+    }
+
+    .create-button {
+        display: inline-block;
+        margin: 30px 0 20px;
+        padding: 13px 25px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #16a34a, #059669);
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .create-button:hover {
+        transform: translateY(-4px);
+        color: white;
+        box-shadow: 0 5px 20px rgba(22,163,74,0.3);
+    }
+
+    .navigation {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .nav-button {
+        display: inline-block;
+        padding: 12px 22px;
+        border-radius: 10px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        transition: 0.3s;
+    }
+
+    .nav-button:hover {
+        transform: translateY(-3px);
+        color: white;
+    }
+
+    @media(max-width: 480px) {
+        .users-header h1 {
+            font-size: 23px;
+        }
+
+        .search-form {
+            flex-direction: column;
+        }
+
+        .search-button {
+            padding: 13px;
+        }
+    }
+</style>
+
+<div class="users-page">
+
+    <div class="users-header">
+        <h1>👥 Barcha o'quvchilar</h1>
+        <p>O'quvchilar ro'yxati va ularning ma'lumotlari</p>
+    </div>
+
+    <!-- Qidiruv -->
+    <form method="GET" class="search-form">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="🔍 O'quvchini qidir..."
+            value="{{ search|default:'' }}"
+        >
+
+        <button type="submit" class="search-button">
+            Qidirish
+        </button>
+
+    </form>
+
+    <!-- O'quvchilar -->
+    {% if search and not users %}
+
+        <div class="empty-message">
+            <h3>😕 O'quvchi topilmadi!</h3>
+            <p>Bunday ism yoki familiya mavjud emas.</p>
+        </div>
+
+    {% elif users %}
+
+        <div class="users-grid">
+
+            {% for user in users %}
+
+                <div class="user-card">
+
+                    <div class="user-avatar">
+                        {{ user.first_name|first|upper }}
+                    </div>
+
+                    <h3>
+                        {{ user.first_name }} {{ user.last_name }}
+                    </h3>
+
+                    <a
+                        href="{% url 'detail_user' user.pk %}"
+                        class="detail-button"
+                    >
+                        Batafsil →
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty-message">
+            <h3>👥 O'quvchilar mavjud emas</h3>
+            <p>Hozircha o'quvchilar qo'shilmagan.</p>
+        </div>
+
+    {% endif %}
+
+    <!-- Yangi o'quvchi -->
+    <div style="text-align:center;">
+
+        <a href="{% url 'create_user' %}" class="create-button">
+            + Yangi o'quvchi qo'shish
+        </a>
+
+    </div>
+
+    <!-- Boshqa sahifalar -->
+    <div class="navigation">
+
+        <a href="{% url 'books' %}" class="nav-button">
+            📚 Kitoblar
+        </a>
+
+        <a href="{% url 'userbooks' %}" class="nav-button">
+            📖 O'quvchi kitoblari
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
